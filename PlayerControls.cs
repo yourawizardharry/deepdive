@@ -1,24 +1,25 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
 	private float sensitivity = 10;
-	private bool playing = true;
 	GameObject camera;
 	float boundMin, boundMax;
 
 	void Start() {
 		camera = GameObject.FindWithTag("MainCamera");
-		setBounds();
+		getBounds();
 	}
 
     // Update is called once per frame
     void Update()
     {
+		if(Game.gameRunning) {
 		updatePosition(getPosition());
 		Debug.Log(transform.position.x);
+		}
     }
 
 
@@ -31,7 +32,7 @@ public class PlayerControls : MonoBehaviour
 		
 	}
 
-	void setBounds() {
+	void getBounds() {
 		boundMax = (camera.GetComponent<Camera>().aspect * camera.GetComponent<Camera>().orthographicSize) - 1;
 		boundMin = boundMax*-1;
 	}
