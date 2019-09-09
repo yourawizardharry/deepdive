@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Collison : MonoBehaviour
+{
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+			Debug.Log("Collision");
+        GameObject.Find("Game_Manger").GetComponent<Game>().stopGame(); 
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        
+        
+    }
+}
