@@ -18,13 +18,11 @@ public class PlayerControls : MonoBehaviour
     {
 		if(Game.gameRunning) {
 		updatePosition(getPosition());
-		Debug.Log(transform.position.x);
 		}
     }
 
 
 	bool isWithinBounds(float x) {
-		Debug.Log("X: " + x);
 		if(x+transform.position.x < boundMax && x+transform.position.x > boundMin) {
 			return true;
 		}
