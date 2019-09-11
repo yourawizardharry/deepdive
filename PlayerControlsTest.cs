@@ -25,7 +25,7 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator PlayerControlsMoveLeft()
+        public IEnumerator MoveLeftWithinBounds()
         {
             Vector3 beforeMove, afterMove;
             beforeMove = diver.transform.position;
@@ -40,7 +40,7 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator PlayerControlsMoveRight()
+        public IEnumerator MoveRightWithinBounds()
         {
             Vector3 beforeMove, afterMove;
             beforeMove = diver.transform.position;
@@ -51,6 +51,36 @@ namespace Tests
             Debug.Log(beforeMove);
             Debug.Log(afterMove);
             Assert.IsTrue(beforeMove.x < afterMove.x);
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator MoveRightOutOfBounds()
+        {
+            Vector3 beforeMove, afterMove;
+            beforeMove = diver.transform.position;
+            diver.GetComponent<PlayerControls>().updatePosition(diver.transform.position.x + 20); //get camera bounds and do this nicely
+            yield return new WaitForSeconds(1);
+            afterMove = diver.transform.position;
+            diver.transform.position = beforeMove;
+            Debug.Log(beforeMove);
+            Debug.Log(afterMove);
+            Assert.IsTrue(beforeMove.x == afterMove.x);
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator MoveLeftOutOfBounds()
+        {
+            Vector3 beforeMove, afterMove;
+            beforeMove = diver.transform.position;
+            diver.GetComponent<PlayerControls>().updatePosition(diver.transform.position.x - 20); //get camera bounds and do this nicely
+            yield return new WaitForSeconds(1);
+            afterMove = diver.transform.position;
+            diver.transform.position = beforeMove;
+            Debug.Log(beforeMove);
+            Debug.Log(afterMove);
+            Assert.IsTrue(beforeMove.x == afterMove.x);
             yield return null;
         }
     }
