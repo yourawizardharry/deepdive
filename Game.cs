@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 	public Camera cam;
 	public GameObject Player, BackgroundImageFirst,BackgroundImageSecond;
 	public PlayerMovement PlayerInstanceMovementScript;
+    public PlayerControls PlayerControlsScript;
 
 	void Start() 
 	{
@@ -28,7 +29,13 @@ public class Game : MonoBehaviour
 		Parallax ParallaxScript = (Parallax) Player.GetComponent(typeof(Parallax));
 		ParallaxScript.Construct(BackgroundImageFirst, BackgroundImageSecond, cam);
 
-		startGame();
+        //add movement controls
+        Player.AddComponent<PlayerControls>();
+        PlayerControlsScript = (PlayerControls)Player.GetComponent(typeof(PlayerControls));
+        PlayerControlsScript.addCamera(cam);
+
+        //Start game
+        startGame();
 
 	}
 

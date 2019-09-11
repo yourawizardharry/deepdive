@@ -5,19 +5,26 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
 	private float sensitivity = 10;
-	GameObject camera;
-	float boundMin, boundMax;
+	public Camera camera;
+	public float boundMin, boundMax;
 
 	void Start() {
-		camera = GameObject.FindWithTag("MainCamera");
-		getBounds();
+
+            if(GameObject.FindWithTag("MainCamera")!= null) camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            if(camera!=null) getBounds();
 	}
+
+    public void addCamera(Camera cam)
+    {
+        this.camera = cam;
+        getBounds();
+    }
 
     // Update is called once per frame
     void Update()
     {
-		if(Game.gameRunning) {
-		updatePosition(getPosition());
+		if(Game.gameRunning && camera != null) {
+		updatePosition(getNewPosition());
 		}
     }
 
@@ -27,21 +34,20 @@ public class PlayerControls : MonoBehaviour
 			return true;
 		}
 		else return false;
-		
 	}
 
 	void getBounds() {
-		boundMax = (camera.GetComponent<Camera>().aspect * camera.GetComponent<Camera>().orthographicSize) - 1;
+		boundMax = (camera.aspect * camera.orthographicSize) - 1;
 		boundMin = boundMax*-1;
 	}
 
 
-	float getPosition() {
+	float getNewPosition() {
 		return Input.acceleration.x*sensitivity*Time.deltaTime;
 	}
 
-	void updatePosition(float acceleration) {
-		if(isWithinBounds(acceleration)) transform.Translate(acceleration, 0, 0);
+	public void updatePosition(float newPosition) {
+		if(isWithinBounds(newPosition)) transform.Translate(newPosition, 0, 0);
 	}
 
 	bool setSensitivity(float sensitivity) {
@@ -51,5 +57,7 @@ public class PlayerControls : MonoBehaviour
 		}
 		else return false;
 	}
+
+
 
 }
