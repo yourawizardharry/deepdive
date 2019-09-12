@@ -4,29 +4,32 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-	private float sensitivity = 10;
-	public Camera camera;
-	public float boundMin, boundMax;
+	private float sensitivity = 15;
+	GameObject camera;
+	float boundMin, boundMax;
+	public Sprite leftImage, rightImage, downImage;
 
 	void Start() {
-
-            if(GameObject.FindWithTag("MainCamera")!= null) camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            if(camera!=null) getBounds();
+		camera = GameObject.FindWithTag("MainCamera");
+		getBounds();
 	}
-
-    public void addCamera(Camera cam)
-    {
-        this.camera = cam;
-        getBounds();
-    }
 
     // Update is called once per frame
     void Update()
     {
-		if(Game.gameRunning && camera != null) {
-		updatePosition(getNewPosition());
+		if(Game.gameRunning) {
+		float acceleration = getAcceleration();
+		if(acceleration > 1.2f / sensitivity) setImage(rightImage);
+		else if(acceleration < -1.2f / sensitivity) setImage(leftImage);
+		else if(acceleration > -0.6f / sensitivity && acceleration < 0.6f / sensitivity) setImage(downImage);
+		updatePosition(getPosition(acceleration));
 		}
     }
+
+	void setImage(Sprite image) {
+	if(image!=null) GetComponent<SpriteRenderer>().sprite = image;
+	else Debug.Log("imagenull");
+	}
 
 
 	bool isWithinBounds(float x) {
@@ -34,20 +37,27 @@ public class PlayerControls : MonoBehaviour
 			return true;
 		}
 		else return false;
+		
 	}
 
 	void getBounds() {
-		boundMax = (camera.aspect * camera.orthographicSize) - 1;
+		boundMax = (camera.GetComponent<Camera>().aspect * camera.GetComponent<Camera>().orthographicSize) - 1;
 		boundMin = boundMax*-1;
 	}
 
-
-	float getNewPosition() {
-		return Input.acceleration.x*sensitivity*Time.deltaTime;
+	float getAcceleration() 
+	{
+		return Input.acceleration.x;
 	}
 
-	public void updatePosition(float newPosition) {
-		if(isWithinBounds(newPosition)) transform.Translate(newPosition, 0, 0);
+	float getPosition(float acceleration) {
+		return acceleration*sensitivity*Time.deltaTime;
+	}
+
+
+
+	void updatePosition(float acceleration) {
+		if(isWithinBounds(acceleration)) transform.Translate(acceleration, 0, 0);
 	}
 
 	bool setSensitivity(float sensitivity) {
@@ -57,7 +67,5 @@ public class PlayerControls : MonoBehaviour
 		}
 		else return false;
 	}
-
-
 
 }
