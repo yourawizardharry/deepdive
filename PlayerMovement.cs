@@ -7,6 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private float playerMovementSpeed;
 	private float playerPositioningOffset;
 
+	private Camera cam;
+
+	public void addCamera(Camera cam) 
+	{
+		this.cam = cam;
+		Debug.Log("ADD CAM CALLED");
+	}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,22 +22,31 @@ public class PlayerMovement : MonoBehaviour
 		playerPositioningOffset = 4f;
     }
 
+	public void stopMovement()
+	{
+		GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+	}
+
+	public void startMovement() 
+	{
+		GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+	}
+
     // Update is called once per frame
     void Update()
     {
-        if(Game.gameRunning) movePlayer();
+        //if(Game.gameRunning)
+		movePlayer();
     }
 
 	private void movePlayer() 
 	{
-		Vector3 newPostition = getNewPosition();
-        transform.position = newPostition;
-		updateCameraPosition(newPostition.y);
+		updateCameraPosition(transform.position.y);
 	}
 
 	private void updateCameraPosition(float Ypos) 
 	{
-		Camera.main.transform.position = new Vector3(GameObject.FindWithTag("MainCamera").transform.position.x, Ypos-playerPositioningOffset, -10);
+		if(cam!=null) cam.transform.position = new Vector3(cam.transform.position.x, Ypos-playerPositioningOffset, -10);
 	}
 
 	private Vector3 getNewPosition() 

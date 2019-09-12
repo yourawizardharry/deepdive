@@ -4,27 +4,39 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-	private float sensitivity = 10;
-	GameObject camera;
+	private float sensitivity = 15;
+	Camera camera;
 	float boundMin, boundMax;
+	public Sprite leftImage, rightImage, downImage;
 
 	void Start() {
-		camera = GameObject.FindWithTag("MainCamera");
-		getBounds();
+		if(camera!= null) getBounds();
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if(Game.gameRunning) {
-		updatePosition(getPosition());
-		Debug.Log(transform.position.x);
+		if(Game.gameRunning && camera!=null) {
+		float acceleration = getAcceleration();
+		if(acceleration > 1.2f / sensitivity) setImage(rightImage);
+		else if(acceleration < -1.2f / sensitivity) setImage(leftImage);
+		else if(acceleration > -0.6f / sensitivity && acceleration < 0.6f / sensitivity) setImage(downImage);
+		updatePosition(getPosition(acceleration));
 		}
     }
 
+	void setImage(Sprite image) {
+	if(image!=null) GetComponent<SpriteRenderer>().sprite = image;
+	else Debug.Log("imagenull");
+	}
+
+	public void addCamera(Camera camera)
+	{
+		this.camera = camera;
+	}
+
 
 	bool isWithinBounds(float x) {
-		Debug.Log("X: " + x);
 		if(x+transform.position.x < boundMax && x+transform.position.x > boundMin) {
 			return true;
 		}
@@ -33,16 +45,20 @@ public class PlayerControls : MonoBehaviour
 	}
 
 	void getBounds() {
-		boundMax = (camera.GetComponent<Camera>().aspect * camera.GetComponent<Camera>().orthographicSize) - 1;
+		boundMax = (camera.aspect * camera.orthographicSize) - 1;
 		boundMin = boundMax*-1;
 	}
 
-
-	float getPosition() {
-		return Input.acceleration.x*sensitivity*Time.deltaTime;
+	float getAcceleration() 
+	{
+		return Input.acceleration.x;
 	}
 
-	void updatePosition(float acceleration) {
+	float getPosition(float acceleration) {
+		return acceleration*sensitivity*Time.deltaTime;
+	}
+
+	public void updatePosition(float acceleration) {
 		if(isWithinBounds(acceleration)) transform.Translate(acceleration, 0, 0);
 	}
 

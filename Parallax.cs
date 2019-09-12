@@ -7,23 +7,25 @@ public class Parallax : MonoBehaviour
     GameObject backGround1, backGround2;
     RectTransform rt;
     float backGround1LocY, backGround2LocY;
+	Camera cam;
     float cameraLocY;
 
-    void Start()
-    {
-        getBackgrounds();
-    }
-
+	
+	public void Construct(GameObject backGround1, GameObject backGround2, Camera cam) 
+	{
+		this.backGround1 = backGround1;
+		this.backGround2 = backGround2;
+		this.cam = cam;
+	}
 
     // Update is called once per frame
     void Update()
     {
 		if(Game.gameRunning) {
-			if (backGround1 == null || backGround2 == null)
+			if (backGround1 != null && backGround2 != null)
 			{
-			    getBackgrounds();
+			    backGroundUpdate();
 			}
-			else backGroundUpdate();
 		}
     }
 
@@ -34,7 +36,7 @@ public class Parallax : MonoBehaviour
         {
             backGround1LocY = backGround1.transform.position.y - (backGround1.GetComponent<SpriteRenderer>().bounds.size.y / 2f);
             backGround2LocY = backGround2.transform.position.y - (backGround2.GetComponent<SpriteRenderer>().bounds.size.y / 2f);
-            cameraLocY = GetComponent<Camera>().transform.position.y - GetComponent<Camera>().orthographicSize;
+            cameraLocY = cam.transform.position.y - cam.orthographicSize;
 
             if (cameraLocY < backGround1LocY + -1 * backGround1.GetComponent<SpriteRenderer>().bounds.size.y)
             {
