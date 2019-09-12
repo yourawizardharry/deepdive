@@ -21,6 +21,7 @@ namespace Tests
                 diver = Resources.Load<GameObject>("diver");
                 diver = MonoBehaviour.Instantiate(diver);
                 diver.GetComponent<PlayerControls>().addCamera(cam);
+				diver.AddComponent<PlayerMovement>().addCamera(cam);
             }
         }
 

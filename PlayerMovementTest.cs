@@ -6,13 +6,20 @@ using UnityEngine.TestTools;
 
 public class PlayerMovementTest
 {
-	GameObject gm;
+	GameObject diver;
+	public Camera cam;
+	PlayerMovement PlayerMovementScript;
+
 	[SetUp]
 	public void Setup() 
 	{
-		if(gm == null) {
-		gm = Resources.Load<GameObject>("Game_Manager");
-		gm = MonoBehaviour.Instantiate(gm);
+		if(diver == null) {
+				cam = Resources.Load<Camera>("Main Camera");
+                cam = MonoBehaviour.Instantiate(cam);
+                diver = Resources.Load<GameObject>("diver");
+                diver = MonoBehaviour.Instantiate(diver);
+                diver.AddComponent<PlayerMovement>();
+				PlayerMovementScript = diver.GetComponent<PlayerMovement>();
 		}
 	}
 
@@ -20,8 +27,7 @@ public class PlayerMovementTest
     public IEnumerator PlayerActiveMovementTest()
    {
 		float diverBefore, diverAfter;
-		yield return new WaitForSeconds(1);
-		gm.GetComponent<Game>().startGame();
+		PlayerMovementScript.startMovement();
 		GameObject diver = GameObject.FindWithTag("Player");
 		diverBefore = diver.transform.position.y;
 		yield return new WaitForSeconds(1);
@@ -32,8 +38,7 @@ public class PlayerMovementTest
    [UnityTest]
    public IEnumerator PlayerMovementGameStoppedTest()
    {
-		gm.GetComponent<Game>().stopGame();
-		yield return new WaitForSeconds(1);
+		PlayerMovementScript.stopMovement();
 		float diverBefore, diverAfter;
 		GameObject diver = GameObject.FindWithTag("Player");
 		diverBefore = diver.transform.position.y;
@@ -41,6 +46,7 @@ public class PlayerMovementTest
 		diverAfter = diver.transform.position.y;
 		Assert.AreEqual(diverBefore,diverAfter);
    }
+
 
 }
 

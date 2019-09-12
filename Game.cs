@@ -29,8 +29,7 @@ public class Game : MonoBehaviour
 		Parallax ParallaxScript = (Parallax) Player.GetComponent(typeof(Parallax));
 		ParallaxScript.Construct(BackgroundImageFirst, BackgroundImageSecond, cam);
 
-        //add movement controls
-        Player.AddComponent<PlayerControls>();
+        //add camera component to movement controls
         PlayerControlsScript = (PlayerControls)Player.GetComponent(typeof(PlayerControls));
         PlayerControlsScript.addCamera(cam);
 

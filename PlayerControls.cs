@@ -5,19 +5,18 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
 	private float sensitivity = 15;
-	GameObject camera;
+	Camera camera;
 	float boundMin, boundMax;
 	public Sprite leftImage, rightImage, downImage;
 
 	void Start() {
-		camera = GameObject.FindWithTag("MainCamera");
-		getBounds();
+		if(camera!= null) getBounds();
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if(Game.gameRunning) {
+		if(Game.gameRunning && camera!=null) {
 		float acceleration = getAcceleration();
 		if(acceleration > 1.2f / sensitivity) setImage(rightImage);
 		else if(acceleration < -1.2f / sensitivity) setImage(leftImage);
@@ -31,6 +30,11 @@ public class PlayerControls : MonoBehaviour
 	else Debug.Log("imagenull");
 	}
 
+	public void addCamera(Camera camera)
+	{
+		this.camera = camera;
+	}
+
 
 	bool isWithinBounds(float x) {
 		if(x+transform.position.x < boundMax && x+transform.position.x > boundMin) {
@@ -41,7 +45,7 @@ public class PlayerControls : MonoBehaviour
 	}
 
 	void getBounds() {
-		boundMax = (camera.GetComponent<Camera>().aspect * camera.GetComponent<Camera>().orthographicSize) - 1;
+		boundMax = (camera.aspect * camera.orthographicSize) - 1;
 		boundMin = boundMax*-1;
 	}
 
@@ -54,9 +58,7 @@ public class PlayerControls : MonoBehaviour
 		return acceleration*sensitivity*Time.deltaTime;
 	}
 
-
-
-	void updatePosition(float acceleration) {
+	public void updatePosition(float acceleration) {
 		if(isWithinBounds(acceleration)) transform.Translate(acceleration, 0, 0);
 	}
 

@@ -41,9 +41,6 @@ public class PlayerMovement : MonoBehaviour
 
 	private void movePlayer() 
 	{
-		//Vector3 newPostition = getNewPosition();
-        //transform.position = newPostition;
-		//updateCameraPosition(newPostition.y);
 		updateCameraPosition(transform.position.y);
 	}
 
