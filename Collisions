@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Collison : MonoBehaviour
+{
+    void OnCollisionEnter(Collision col)
+    {
+        if(col.gameObject.name == "Object1")
+        {
+
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        
+        
+    }
+}
