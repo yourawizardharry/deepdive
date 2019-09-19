@@ -9,7 +9,7 @@ public class Parallax : MonoBehaviour
     float backGround1LocY, backGround2LocY;
 	Camera cam;
     float cameraLocY;
-
+    bool running = true;
 	
 	public void Construct(GameObject backGround1, GameObject backGround2, Camera cam) 
 	{
@@ -21,12 +21,17 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if(Game.gameRunning) {
+		if(running) {
 			if (backGround1 != null && backGround2 != null)
 			{
 			    backGroundUpdate();
 			}
 		}
+    }
+
+    public void isRunning(bool running)
+    {
+        this.running = running;
     }
 
 

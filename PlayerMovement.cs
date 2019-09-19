@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private float playerMovementSpeed;
 	private float playerPositioningOffset;
+    private bool running = true;
 
 	private Camera cam;
 
@@ -35,8 +36,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(Game.gameRunning)
-		movePlayer();
+        if(running) movePlayer();
+    }
+
+    public void isRunning(bool running)
+    {
+        this.running = running;
     }
 
 	private void movePlayer() 
