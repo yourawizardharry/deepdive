@@ -35,7 +35,7 @@ public class uiManager : MonoBehaviour
     private void Update()
     {
         Pause();
-        scoreText.text = "Score: " + score;
+        scoreText.text = "Score: " + score + "m";
     }
 
     void scoreUpdate()
