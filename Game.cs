@@ -5,6 +5,7 @@ using UnityEngine;
 public class Game : MonoBehaviour
 
 {
+
 	public bool gameRunning = true;
 	public Camera cam;
 	public GameObject Player, BackgroundImageFirst,BackgroundImageSecond;
@@ -18,6 +19,15 @@ public class Game : MonoBehaviour
 
 
     void Start() 
+
+	public static bool gameRunning = true;
+	public Camera cam;
+	public GameObject Player, BackgroundImageFirst,BackgroundImageSecond;
+	public PlayerMovement PlayerInstanceMovementScript;
+    public PlayerControls PlayerControlsScript;
+
+	void Start() 
+
 	{
 		//Instantiate Camera & player
 		cam = Instantiate(cam);
@@ -26,32 +36,45 @@ public class Game : MonoBehaviour
 		PlayerInstanceMovementScript = (PlayerMovement) Player.GetComponent(typeof(PlayerMovement));
 		PlayerInstanceMovementScript.addCamera(cam);
 
+
         //Instantiate score
         //Score ScoreScript = (Score)Player.GetComponent(typeof(PlayerMovement));
         //ScoreScript.addPlayer(Player);
 
         //Instantiate backgounds
         BackgroundImageFirst = Instantiate(BackgroundImageFirst);
+
+		//Instantiate backgounds
+		BackgroundImageFirst = Instantiate(BackgroundImageFirst);
+
 		BackgroundImageSecond = Instantiate(BackgroundImageSecond);
 
 		//add parallax
 		Player.AddComponent<Parallax>();
+
 		ParallaxScript = (Parallax) Player.GetComponent(typeof(Parallax));
+
+		Parallax ParallaxScript = (Parallax) Player.GetComponent(typeof(Parallax));
+
 		ParallaxScript.Construct(BackgroundImageFirst, BackgroundImageSecond, cam);
 
         //add camera component to movement controls
         PlayerControlsScript = (PlayerControls)Player.GetComponent(typeof(PlayerControls));
         PlayerControlsScript.addCamera(cam);
 
+
         //get start positions
         startPosPlayer = Player.transform.position;
         backgroundPos1 = BackgroundImageFirst.transform.position;
         backgroundPos2 = BackgroundImageSecond.transform.position;
 
+
+
         //Start game
         startGame();
 
 	}
+
 
     public void restartGame()
     {
@@ -74,9 +97,18 @@ public class Game : MonoBehaviour
         restartPanel.SetActive(true);
     }
 
+	public void stopGame() 
+	{
+		gameRunning = false;
+		//PlayerMovement PlayerInstanceMovementScript = (PlayerMovement) Player.GetComponent(typeof(PlayerMovement));
+		PlayerInstanceMovementScript.stopMovement();
+	}
+
+
 	public void startGame()
 	{
 		gameRunning = true;
+
 		PlayerInstanceMovementScript.startMovement();
 	}
 
@@ -85,6 +117,12 @@ public class Game : MonoBehaviour
     {
         return gameRunning;
     }
+
+		//PlayerMovement PlayerInstanceMovementScript = (PlayerMovement) Player.GetComponent(typeof(PlayerMovement));
+		PlayerInstanceMovementScript.startMovement();
+	}
+
+
 }
 
 /*

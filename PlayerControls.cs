@@ -8,8 +8,10 @@ public class PlayerControls : MonoBehaviour
 	Camera camera;
 	float boundMin, boundMax;
 	public Sprite leftImage, rightImage, downImage;
+
     bool running = true;
     public uiManager ui;
+
 
 	void Start() {
 		if(camera!= null) getBounds();
@@ -18,6 +20,7 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
 		if(running  && camera!=null) {
 		float acceleration = getAcceleration();
 		if(acceleration > 1.2f / sensitivity) setImage(rightImage);
@@ -37,10 +40,12 @@ public class PlayerControls : MonoBehaviour
 		this.camera = camera;
 	}
 
+
     public void isRunning(bool running)
     {
         this.running = running;
     }
+
 
 
 	bool isWithinBounds(float x) {
