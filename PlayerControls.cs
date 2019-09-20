@@ -9,6 +9,7 @@ public class PlayerControls : MonoBehaviour
 	float boundMin, boundMax;
 	public Sprite leftImage, rightImage, downImage;
     bool running = true;
+    public uiManager ui;
 
 	void Start() {
 		if(camera!= null) getBounds();
