@@ -8,14 +8,16 @@ public class Game : MonoBehaviour
 	public bool gameRunning = true;
 	public Camera cam;
 	public GameObject Player, BackgroundImageFirst,BackgroundImageSecond;
-	public PlayerMovement PlayerInstanceMovementScript;
+    //public GameObject ScoreObject;
+    public PlayerMovement PlayerInstanceMovementScript;
     public PlayerControls PlayerControlsScript;
     public GameObject collisionobj1, collisionobj2;
     public Parallax ParallaxScript;
     private Vector3 startPosPlayer, backgroundPos1, backgroundPos2;
-    
+    public GameObject restartPanel;
 
-	void Start() 
+
+    void Start() 
 	{
 		//Instantiate Camera & player
 		cam = Instantiate(cam);
@@ -24,8 +26,12 @@ public class Game : MonoBehaviour
 		PlayerInstanceMovementScript = (PlayerMovement) Player.GetComponent(typeof(PlayerMovement));
 		PlayerInstanceMovementScript.addCamera(cam);
 
-		//Instantiate backgounds
-		BackgroundImageFirst = Instantiate(BackgroundImageFirst);
+        //Instantiate score
+        //Score ScoreScript = (Score)Player.GetComponent(typeof(PlayerMovement));
+        //ScoreScript.addPlayer(Player);
+
+        //Instantiate backgounds
+        BackgroundImageFirst = Instantiate(BackgroundImageFirst);
 		BackgroundImageSecond = Instantiate(BackgroundImageSecond);
 
 		//add parallax
@@ -65,6 +71,7 @@ public class Game : MonoBehaviour
         PlayerControlsScript.isRunning(false);
         PlayerInstanceMovementScript.isRunning(false);
         ParallaxScript.isRunning(false);
+        restartPanel.SetActive(true);
     }
 
 	public void startGame()
