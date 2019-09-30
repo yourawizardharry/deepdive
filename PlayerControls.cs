@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-	private float sensitivity = 15;
+	private static float sensitivity = 15;
 	Camera camera;
 	float boundMin, boundMax;
 	public Sprite leftImage, rightImage, downImage;
@@ -52,8 +52,8 @@ public class PlayerControls : MonoBehaviour
 	}
 
 	void getBounds() {
-		boundMax = (camera.aspect * camera.orthographicSize) - 1;
-		boundMin = boundMax*-1;
+		boundMax = (camera.aspect * camera.orthographicSize) - 1.4f;
+		boundMin = boundMax*-1.45f;
 	}
 
 	float getAcceleration() 
@@ -69,9 +69,9 @@ public class PlayerControls : MonoBehaviour
 		if(isWithinBounds(acceleration)) transform.Translate(acceleration, 0, 0);
 	}
 
-	bool setSensitivity(float sensitivity) {
-		if(sensitivity < 20 && sensitivity > 5) {
-			this.sensitivity = sensitivity;
+	public static bool setSensitivity(float newSensitivity) {
+		if(newSensitivity <= 25 && newSensitivity >= 5) {
+			sensitivity = newSensitivity;
 			return true;
 		}
 		else return false;
