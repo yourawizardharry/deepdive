@@ -19,6 +19,7 @@ public class Game : MonoBehaviour
 
     void Start() 
 	{
+
 		//Instantiate Camera & player
 		cam = Instantiate(cam);
 		Player = Instantiate(Player);
@@ -52,6 +53,11 @@ public class Game : MonoBehaviour
         startGame();
 
 	}
+
+    public GameObject getPlayer()
+    {
+        return Player;
+    }
 
     public void restartGame()
     {

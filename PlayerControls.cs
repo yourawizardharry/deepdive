@@ -15,21 +15,33 @@ public class PlayerControls : MonoBehaviour
 		if(camera!= null) getBounds();
 	}
 
+    public void setPlayerImage(Sprite leftImage, Sprite rightImage, Sprite downImage)
+    {
+        this.leftImage = leftImage;
+        this.rightImage = rightImage;
+        this.downImage = downImage;
+    }
+
     // Update is called once per frame
     void Update()
     {
 		if(running  && camera!=null) {
 		float acceleration = getAcceleration();
-		if(acceleration > 1.2f / sensitivity) setImage(rightImage);
-		else if(acceleration < -1.2f / sensitivity) setImage(leftImage);
-		else if(acceleration > -0.6f / sensitivity && acceleration < 0.6f / sensitivity) setImage(downImage);
+		if(leftImage == null || rightImage == null) {
+			if(downImage != null) setImage(downImage);
+		}
+		else {
+			if(acceleration > 1.2f / sensitivity) setImage(rightImage);
+			else if(acceleration < -1.2f / sensitivity) setImage(leftImage);
+			else if(acceleration > -0.6f / sensitivity && acceleration < 0.6f / sensitivity) setImage(downImage);
+		}
 		updatePosition(getPosition(acceleration));
 		}
     }
 
 	void setImage(Sprite image) {
-	if(image!=null) GetComponent<SpriteRenderer>().sprite = image;
-	else Debug.Log("imagenull");
+		if(image!=null) GetComponent<SpriteRenderer>().sprite = image;
+		else Debug.Log("imagenull");
 	}
 
 	public void addCamera(Camera camera)
