@@ -15,6 +15,7 @@ public class Game : MonoBehaviour
     public Parallax ParallaxScript;
     private Vector3 startPosPlayer, backgroundPos1, backgroundPos2;
     public GameObject restartPanel;
+    public PlayerMarket playerMarketScript = null;
 
 
     void Start() 
@@ -30,6 +31,10 @@ public class Game : MonoBehaviour
         //Instantiate score
         //Score ScoreScript = (Score)Player.GetComponent(typeof(PlayerMovement));
         //ScoreScript.addPlayer(Player);
+
+        //Initate image control
+        playerMarketScript = (PlayerMarket) Player.GetComponent(typeof(PlayerMarket));
+        playerMarketScript.setPlayer(Player);
 
         //Instantiate backgounds
         BackgroundImageFirst = Instantiate(BackgroundImageFirst);
