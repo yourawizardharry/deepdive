@@ -16,6 +16,7 @@ public class Game : MonoBehaviour
     private Vector3 startPosPlayer, backgroundPos1, backgroundPos2;
     public GameObject restartPanel;
     public PlayerMarket playerMarketScript = null;
+	public CoinControl coinControlScript = null;
 
 
     void Start() 
@@ -31,6 +32,9 @@ public class Game : MonoBehaviour
         //Instantiate score
         //Score ScoreScript = (Score)Player.GetComponent(typeof(PlayerMovement));
         //ScoreScript.addPlayer(Player);
+
+		//Coin control
+		coinControlScript = new CoinControl();
 
         //Initate image control
         playerMarketScript = (PlayerMarket) Player.GetComponent(typeof(PlayerMarket));
