@@ -10,7 +10,9 @@ public class PlayerMarket : MonoBehaviour
     public Sprite newPlayer2;
     public Sprite newPlayer3;
     public Sprite curSprite;
+    private GameObject diverObject;
     private ArrayList playerList;
+    public Sprite[] playerImages;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,6 @@ public class PlayerMarket : MonoBehaviour
         {
             curSprite = diverSprite;
         }
-        setPlayerImage(curSprite);
     }
 
     public void saveCurrentImageSelection()
@@ -35,14 +36,21 @@ public class PlayerMarket : MonoBehaviour
         if (playerList.Contains(curSprite)) PlayerPrefs.SetInt(saveKey, playerList.IndexOf(curSprite));
     }
    
-    public void setPlayerImage(Sprite newPlayerImage) 
+    public void setPlayerImage(int newPlayerImage) 
     {
-        GameObject diverObject = GameObject.Find("diver");
-        PlayerControls playerControlsScript = diverObject.GetComponent<PlayerControls>();
-        diverObject.GetComponent<SpriteRenderer>().sprite = newPlayerImage;
-        playerControlsScript.setPlayerImage(null, null, newPlayerImage);
-        curSprite = newPlayerImage;
+        if (diverObject != null)
+        {
+            PlayerControls playerControlsScript = diverObject.GetComponent<PlayerControls>();
+            diverObject.GetComponent<SpriteRenderer>().sprite = playerImages[newPlayerImage];
+            playerControlsScript.setPlayerImage(null, null, playerImages[newPlayerImage]);
+            curSprite = playerImages[newPlayerImage];
+        }
     }
+
+    public void setPlayer(GameObject diverObject)
+    {
+        this.diverObject = diverObject;
+    } 
 
     public ArrayList getPlayerSprites()
     {
