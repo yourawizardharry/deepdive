@@ -1,19 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class O2 : MonoBehaviour
 {
-    public Transform player;
-    public Text scoreText;
+    public Text O2Text;
+    public float oxygenLeft = 100.0f;
 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        Destroy(gameObject, 0.1f);
+        increaseO2();
+
+    }
+    void increaseO2()
+    {
+        oxygenLeft += 10;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        float oxygenLeft = 100 - player.position.y * (-1) / 80; ;
-        if (oxygenLeft > 0)
+        if (Time.timeScale == 0 && Game.gameRunning)
         {
-            scoreText.text = "Oxygen " + oxygenLeft.ToString("0") + "%";
+            oxygenLeft -= Time.deltaTime;
+            O2Text.text = "O2 Left " + oxygenLeft.ToString("0") + "%";
         }
+        else if (oxygenLeft < 0)
+        {
+            GameObject.Find("Game_Manager").GetComponent<Game>().stopGame();
+        }
+
     }
 }
