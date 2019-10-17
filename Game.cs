@@ -5,7 +5,7 @@ using UnityEngine;
 public class Game : MonoBehaviour
 
 {
-	public bool gameRunning = true;
+	public static bool gameRunning = true;
 	public Camera cam;
 	public GameObject Player, BackgroundImageFirst,BackgroundImageSecond;
     //public GameObject ScoreObject;
@@ -16,7 +16,9 @@ public class Game : MonoBehaviour
     private Vector3 startPosPlayer, backgroundPos1, backgroundPos2;
     public GameObject restartPanel;
     public PlayerMarket playerMarketScript = null;
-	public CoinControl coinControlScript = null;
+	public DarknessOverlay darknessOverlayScript;
+	public GameObject darknessOverlayObject;
+    public CoinControl coinControlScript;
 
 
     void Start() 
@@ -28,17 +30,20 @@ public class Game : MonoBehaviour
 		Player.AddComponent<PlayerMovement>();
 		PlayerInstanceMovementScript = (PlayerMovement) Player.GetComponent(typeof(PlayerMovement));
 		PlayerInstanceMovementScript.addCamera(cam);
+        coinControlScript = new CoinControl();
 
         //Instantiate score
         //Score ScoreScript = (Score)Player.GetComponent(typeof(PlayerMovement));
         //ScoreScript.addPlayer(Player);
 
-		//Coin control
-		coinControlScript = new CoinControl();
-
         //Initate image control
         playerMarketScript = (PlayerMarket) Player.GetComponent(typeof(PlayerMarket));
         playerMarketScript.setPlayer(Player);
+
+		//get darkness script
+		darknessOverlayScript = (DarknessOverlay) darknessOverlayObject.GetComponent(typeof(DarknessOverlay));
+
+
 
         //Instantiate backgounds
         BackgroundImageFirst = Instantiate(BackgroundImageFirst);
@@ -87,12 +92,15 @@ public class Game : MonoBehaviour
         PlayerInstanceMovementScript.isRunning(false);
         ParallaxScript.isRunning(false);
         restartPanel.SetActive(true);
+		darknessOverlayScript.setRunning(false);
     }
 
 	public void startGame()
 	{
 		gameRunning = true;
 		PlayerInstanceMovementScript.startMovement();
+		darknessOverlayScript.addCamera(cam);
+		darknessOverlayScript.setRunning(true);
 	}
 
 
@@ -100,6 +108,11 @@ public class Game : MonoBehaviour
     {
         return gameRunning;
     }
+
+	public Camera getCamera()
+	{
+		return cam;
+	}
 }
 
 /*
