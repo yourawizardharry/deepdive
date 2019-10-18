@@ -41,8 +41,8 @@ public class Game : MonoBehaviour
         playerMarketScript.setPlayer(Player);
 
 		//get darkness script
+		darknessOverlayObject = Instantiate(darknessOverlayObject);
 		darknessOverlayScript = (DarknessOverlay) darknessOverlayObject.GetComponent(typeof(DarknessOverlay));
-
 
 
         //Instantiate backgounds

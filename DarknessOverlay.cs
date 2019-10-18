@@ -23,8 +23,8 @@ public class DarknessOverlay : MonoBehaviour
 		}
     }
 
-	public void addCamera(Camera cam) {
-		this.cam = cam;
+	public void addCamera(Camera camera) {
+		cam = camera;
 	}
 
 	private void incrementTransparency() 
@@ -63,6 +63,9 @@ public class DarknessOverlay : MonoBehaviour
 			setTransparency(curTransparency);
 			running = false;
 		}
-		else running = true;
+		else
+		{
+			running = true;
+		}
 	}
 }
