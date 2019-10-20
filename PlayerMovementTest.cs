@@ -8,7 +8,6 @@ public class PlayerMovementTest
 {
 	GameObject diver;
 	public Camera cam;
-	PlayerMovement PlayerMovementScript;
 
 	[SetUp]
 	public void Setup() 
@@ -16,10 +15,8 @@ public class PlayerMovementTest
 		if(diver == null) {
 				cam = Resources.Load<Camera>("Main Camera");
                 cam = MonoBehaviour.Instantiate(cam);
-                diver = Resources.Load<GameObject>("diver");
+                diver = Resources.Load<GameObject>("PlayerObjects\\diver");
                 diver = MonoBehaviour.Instantiate(diver);
-                diver.AddComponent<PlayerMovement>();
-				PlayerMovementScript = diver.GetComponent<PlayerMovement>();
 		}
 	}
 
@@ -27,7 +24,6 @@ public class PlayerMovementTest
     public IEnumerator PlayerActiveMovementTest()
    {
 		float diverBefore, diverAfter;
-		PlayerMovementScript.startMovement();
 		GameObject diver = GameObject.FindWithTag("Player");
 		diverBefore = diver.transform.position.y;
 		yield return new WaitForSeconds(1);
@@ -38,9 +34,9 @@ public class PlayerMovementTest
    [UnityTest]
    public IEnumerator PlayerMovementGameStoppedTest()
    {
-		PlayerMovementScript.stopMovement();
 		float diverBefore, diverAfter;
 		GameObject diver = GameObject.FindWithTag("Player");
+		 diver.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
 		diverBefore = diver.transform.position.y;
 		yield return new WaitForSeconds(1);
 		diverAfter = diver.transform.position.y;
