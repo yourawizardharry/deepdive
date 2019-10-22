@@ -8,6 +8,7 @@ namespace Tests
 {
     public class CoinTest
     {
+		CoinControl coinControl = new CoinControl();
         // A Test behaves as an ordinary method
         [Test]
         public void StartingBalanceTest()
@@ -23,7 +24,7 @@ namespace Tests
 			int beforeAddBalance;
 			int afterAddBalance;
             beforeAddBalance = CoinControl.getBalance();
-			CoinControl.addCoins(10);
+			coinControl.addCoins(10);
 			afterAddBalance = CoinControl.getBalance();
 			Assert.IsTrue(beforeAddBalance == afterAddBalance-10);
         }

@@ -7,7 +7,7 @@ public class CoinControl : MonoBehaviour
 {
 	private static int coins = 0;
 	private static object Lock = new object();
-	public Text coinCounter;
+    public Text coinCounter;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +16,7 @@ public class CoinControl : MonoBehaviour
 		else PlayerPrefs.SetInt("coins", coins);
     }
 
-	public static void addCoins(int amount) {
+	public void addCoins(int amount) {
 	lock (Lock) {
 		coins += amount;
 		}
@@ -37,9 +37,11 @@ public class CoinControl : MonoBehaviour
 			return coins;
 		}
 	}
+
 	
 	public void Update()
     	{
         	coinCounter.text = coins + " G";
     	}
+
 }
