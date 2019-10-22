@@ -8,14 +8,15 @@ public class uiManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     bool isGameOver;
-     public Text scoreText;
-    int score;
+    //public Text scoreText;
+    //int score;
+    public Text speedText;
 
     private void Start()
     {
         isGameOver = false;
-        score = 0;
-        InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
+        //score = 0;
+        //InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
     }
 
     public void Pause()
@@ -35,16 +36,17 @@ public class uiManager : MonoBehaviour
     private void Update()
     {
         Pause();
-        scoreText.text = "Score: " + score + "m";
+        //scoreText.text = "Score: " + score + "m";
+        speedText.text = GameObject.Find("Game_Manager").GetComponent<Game>().PlayerInstanceMovementScript.getSpeed().ToString("0");
     }
 
-    void scoreUpdate()
-    {
-        if(!isGameOver)
-        {
-        score += 1;
-        }
-    }
+    //void scoreUpdate()
+    //{
+    //    if(!isGameOver)
+    //    {
+    //    score += 1;
+    //    }
+    //}
 
     public void gameOver()
     {

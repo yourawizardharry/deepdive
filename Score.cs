@@ -3,23 +3,19 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    public GameObject player;
     public Text scoreText;
+    float depth;
 
-    private void Start()
-    {
-        player = Instantiate(player);
-    }
     // Update is called once per frame
     void Update()
     {
-        float depth = player.transform.position.y * (-1) / 10 - 4;
-        scoreText.text = "Score: " + depth.ToString("0");
+	if(Time.timeScale == 1 && Game.gameRunning)
+        {
+            depth = GameObject.Find("Game_Manager").GetComponent<Game>().Player.transform.position.y * (-1) /10 - 4;
+            scoreText.text = "Score: " + depth.ToString("0") + "m";
+		}
     }
 
-    public void addPlayer(GameObject player)
-    {
-        //this.player = GameObject.Find("player").transform;
-        this.player = player;
-    }
+    
+
 }
