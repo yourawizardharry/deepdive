@@ -7,14 +7,18 @@ using UnityEngine.UI;
 public class uiManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    bool isGameOver;
+    //bool isGameOver;
     //public Text scoreText;
     //int score;
     public Text speedText;
+    
+    public GameObject speedBoostText;
+
+
 
     private void Start()
     {
-        isGameOver = false;
+        //isGameOver = false;
         //score = 0;
         //InvokeRepeating("scoreUpdate", 1.0f, 0.5f);
     }
@@ -37,7 +41,17 @@ public class uiManager : MonoBehaviour
     {
         Pause();
         //scoreText.text = "Score: " + score + "m";
-        speedText.text = GameObject.Find("Game_Manager").GetComponent<Game>().PlayerInstanceMovementScript.getSpeed().ToString("0");
+        float speed = GameObject.Find("Game_Manager").GetComponent<Game>().PlayerInstanceMovementScript.getSpeed();
+        speedText.text = speed.ToString("0");
+        if (speed >2)
+        {
+            speedBoostText.SetActive(true);
+        }
+        else if (speed < 2)
+        {
+            speedBoostText.SetActive(false);
+        }
+
     }
 
     //void scoreUpdate()
@@ -48,10 +62,10 @@ public class uiManager : MonoBehaviour
     //    }
     //}
 
-    public void gameOver()
-    {
-        isGameOver = true;
-    }
+    //public void gameOver()
+    //{
+    //    isGameOver = true;
+    //}
 
     public void resume()
     {
