@@ -1,0 +1,27 @@
+
+using UnityEngine;
+
+public class o2_spawner : MonoBehaviour
+{
+    // Start is called before the first frame update
+    public GameObject o2;
+    void Start()
+    {
+        InvokeRepeating("spawno2", 20, 20);
+    }
+    void spawno2()
+    {
+        if (GameObject.Find("Game_Manager").GetComponent<Game>().isRunning())
+        {
+            
+            //randomly decides along the x axis where the object will appear 
+            float location = Random.Range(2, 10);
+            //its between like 5 and -6 so have to adjust value
+            location = location - 5;
+            //gettting the camera location so i know where to spawn the objects 
+            float y = GameObject.FindGameObjectWithTag("MainCamera").transform.position.y - 10;
+            //initatest the objects 
+            Instantiate(o2, new Vector3(location, y, 0), new Quaternion(0, 0, 0, 1));
+        }
+    }
+}
