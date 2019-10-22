@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Speed_Collison : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        Destroy(gameObject, 0.1f);
+        GameObject.Find("Game_Manager").GetComponent<Game>().PlayerInstanceMovementScript.speed_up();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
