@@ -37,8 +37,11 @@ public class CoinControl : MonoBehaviour
 			return coins;
 		}
 	}
-    public void Update()
-    {
-        coinCounter.text = coins + " G";
-    }
+
+	
+	public void Update()
+    	{
+        	coinCounter.text = coins + " G";
+    	}
+
 }
