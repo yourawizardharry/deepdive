@@ -6,51 +6,112 @@ using UnityEngine.UI;
 public class PlayerMarket : MonoBehaviour
 {
     private string saveKey = "playerImg";
-    public Sprite diverSprite;
-    public Sprite newPlayer2;
-    public Sprite newPlayer3;
+    private string player1 = "diver";
+    private string player2 = "shark";
+    private string player3 = "noimage";
     public Sprite curSprite;
-    private GameObject diverObject;
+    public GameObject diverObject;
     private ArrayList playerList;
     public Sprite[] playerImages;
+	public Sprite[] diverLeftRight;
+
 
     // Start is called before the first frame update
+    //D
     void Start()
     {
+        if (!PlayerPrefs.HasKey(player1)) PlayerPrefs.SetInt(player1, 1);
+        if (!PlayerPrefs.HasKey(saveKey)) PlayerPrefs.SetInt(saveKey, 0);
+
+
         playerList = new ArrayList();
-        playerList.Add(diverSprite);
-        playerList.Add(newPlayer2);
-        playerList.Add(newPlayer3);
-        if(PlayerPrefs.HasKey(saveKey))
+        for (int i = 0; i < playerImages.Length; ++i)
+        {
+            playerList.Add(playerImages[i]);
+        }
+
+        if (PlayerPrefs.HasKey(saveKey))
         {
             curSprite = (Sprite)playerList.ToArray()[PlayerPrefs.GetInt(saveKey)];
+            this.setPlayerImage(curSprite);
         }
         else
         {
-            curSprite = diverSprite;
+            this.setPlayerImage(playerImages[0]);
         }
+
+
+    }
+
+    public bool checkOwned(Sprite image)
+    {
+        if (image == playerImages[0])
+        {
+            if (PlayerPrefs.HasKey(player1))
+            {
+                if (PlayerPrefs.GetInt(player1) == 1) return true;
+                return false;
+            }
+        }
+        if (image == playerImages[1])
+        {
+            if (PlayerPrefs.HasKey(player2))
+            {
+                if (PlayerPrefs.GetInt(player2) == 1) return true;
+                return false;
+            }
+        }
+        if (image == playerImages[2])
+        {
+            if (PlayerPrefs.HasKey(player3))
+            {
+                if (PlayerPrefs.GetInt(player3) == 1) return true;
+            }
+        }
+        return false;
     }
 
     public void saveCurrentImageSelection()
     {
         if (playerList.Contains(curSprite)) PlayerPrefs.SetInt(saveKey, playerList.IndexOf(curSprite));
     }
-   
-    public void setPlayerImage(int newPlayerImage) 
+
+    public void setPlayer(int newPlayerImage)
+    {
+        this.Start();
+        Debug.Log("yeet");
+        if (diverObject != null)
+        {
+            Debug.Log("noot");
+            PlayerControls playerControlsScript = diverObject.GetComponent<PlayerControls>();
+            diverObject.GetComponent<SpriteRenderer>().sprite = playerImages[newPlayerImage];
+            if(newPlayerImage == 0) playerControlsScript.setPlayerImage(diverLeftRight[0], diverLeftRight[1], playerImages[newPlayerImage]);
+            else playerControlsScript.setPlayerImage(null, null, playerImages[newPlayerImage]);
+        }
+        curSprite = (Sprite)playerImages[newPlayerImage];
+    }
+
+    public void setPlayerImage(Sprite newImage)
     {
         if (diverObject != null)
         {
+            if (newImage == playerImages[0])
+            {
+                PlayerPrefs.SetInt(player1, 1);
+            }
+
             PlayerControls playerControlsScript = diverObject.GetComponent<PlayerControls>();
-            diverObject.GetComponent<SpriteRenderer>().sprite = playerImages[newPlayerImage];
-            playerControlsScript.setPlayerImage(null, null, playerImages[newPlayerImage]);
-            curSprite = playerImages[newPlayerImage];
+            diverObject.GetComponent<SpriteRenderer>().sprite = newImage;
+			if(newImage == playerImages[0]) playerControlsScript.setPlayerImage(diverLeftRight[0], diverLeftRight[1], newImage);
+            else playerControlsScript.setPlayerImage(null, null, newImage);
+            curSprite = newImage;
         }
     }
 
     public void setPlayer(GameObject diverObject)
     {
         this.diverObject = diverObject;
-    } 
+    }
 
     public ArrayList getPlayerSprites()
     {
